@@ -98,8 +98,6 @@ class AddressHandler(BaseHandler):
         ip = self.request.remote_ip
         if self.redis.get(ip) is not None or self.redis.get(address) is not None:
             return self.send_error(429)
-        if not ethereum.utils.check_checksum(address):
-            return self.send_error(404)
         tx = Transaction(get_tx_count(), get_price(), 21000, address, 2 * 1000000000000000000, '')
         tx.sign('PRIVATEKEY', 3)
         data = '0x%s' % binascii.hexlify(rlp.encode(tx)).decode()
