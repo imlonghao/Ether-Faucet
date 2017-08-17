@@ -8,7 +8,6 @@ import tornado.ioloop
 import tornado.web
 import tornado.gen
 import tornado.options
-import ethereum.utils
 from ethereum.transactions import Transaction
 
 tornado.options.define('port', default=9999, type=int)
