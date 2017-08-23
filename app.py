@@ -114,6 +114,6 @@ if __name__ == "__main__":
         (r'/', IndexHandler),
         (r'/(0x[0-9a-fA-F]{40})', AddressHandler),
     ])
-    application.redis = redis.Redis()
+    application.redis = redis.Redis(password=environ['REDIS_PASSWORD'])
     application.listen(tornado.options.options.port, '127.0.0.1', xheaders=True)
     ioloop.start()
