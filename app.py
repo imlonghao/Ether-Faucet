@@ -8,6 +8,7 @@ import tornado.ioloop
 import tornado.web
 import tornado.gen
 import tornado.options
+from os import environ
 from ethereum.transactions import Transaction
 
 tornado.options.define('port', default=9999, type=int)
@@ -26,7 +27,7 @@ def get_tx_count():
     result = requests.post('https://api.myetherapi.com/rop', json={
         'method': 'eth_getTransactionCount',
         'params': [
-            '0x88888703716E72C16fc5f613A8C608F61E060D46',
+            environ['ADDRESS'],
             'latest'
         ],
         'id': 1,
@@ -98,7 +99,7 @@ class AddressHandler(BaseHandler):
         if self.redis.get(ip) is not None or self.redis.get(address) is not None:
             return self.send_error(429)
         tx = Transaction(get_tx_count(), get_price(), 21000, address, 2 * 1000000000000000000, '')
-        tx.sign('PRIVATEKEY', 3)
+        tx.sign(environ['PRIVATE_KEY'], 3)
         data = '0x%s' % binascii.hexlify(rlp.encode(tx)).decode()
         send_tx(data)
         self.redis.set(ip, 1, 60 * 60 * 24)
