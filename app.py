@@ -15,7 +15,7 @@ tornado.options.define('port', default=9999, type=int)
 
 
 def get_price():
-    result = requests.post('https://api.myetherapi.com/rop', json={
+    result = requests.post('https://ropsten.infura.io/mew', json={
         'method': 'eth_gasPrice',
         'id': 1,
         'jsonrpc': '2.0'
@@ -24,7 +24,7 @@ def get_price():
 
 
 def get_tx_count():
-    result = requests.post('https://api.myetherapi.com/rop', json={
+    result = requests.post('https://ropsten.infura.io/mew', json={
         'method': 'eth_getTransactionCount',
         'params': [
             environ['ADDRESS'],
@@ -37,7 +37,7 @@ def get_tx_count():
 
 
 def send_tx(data):
-    requests.post('https://api.myetherapi.com/rop', json={
+    requests.post('https://ropsten.infura.io/mew', json={
         'method': 'eth_sendRawTransaction',
         'params': [
             data
